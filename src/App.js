@@ -6,6 +6,7 @@ import Register from "./components/pages/Register";
 import Dashboard from "./components/pages/Dashboard";
 import { AuthProvider } from "./components/config/Auth";
 import PrivateRoute from "./components/config/PrivateRoute";
+import Howitworks from './components/pages/HowItWorks';
 
 import "./App.scss";
 
@@ -23,6 +24,7 @@ class App extends React.Component {
               <Route path="/register" component={Register} />
               <Route path="/login" component={Login} />
               <Route path="/" exact component={Home} />
+              <Route path="/HowItWorks" exact component={Howitworks} />
               <PrivateRoute path="/dashboard" exact component={Dashboard} />
             </Switch>
             <Footer />
