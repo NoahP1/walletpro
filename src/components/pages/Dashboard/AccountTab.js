@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../config/Auth";
+import { AuthContext } from "../../config/Auth";
 
-const Dashboard = () => {
+function AccountTab() {
   const { currentUser } = useContext(AuthContext);
-
   return (
-    <div className="container">
-      <h1>Dashboard</h1>
+    <div className="tab-container">
       <table>
         <tbody>
           <tr>
@@ -21,6 +19,6 @@ const Dashboard = () => {
       </table>
     </div>
   );
-};
+}
 
-export default Dashboard;
+export default AccountTab;

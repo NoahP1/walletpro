@@ -9,7 +9,11 @@ const Register = ({ history }) => {
       e.preventDefault();
       const { email, password } = e.target.elements;
       try {
-        await Firebase.auth().createUserWithEmailAndPassword(email.value, password.value);
+        const registerUser = await Firebase.auth().createUserWithEmailAndPassword(email.value, password.value);
+        await Firebase.firestore()
+          .collection("users")
+          .doc(registerUser.user.uid)
+          .set({});
         history.push("/dashboard");
       } catch (error) {
         console.log(error);
