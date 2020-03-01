@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import firebase from "../config/Firebase";
 
+// setup context for storing a user across the life of the app
+
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {

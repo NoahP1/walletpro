@@ -13,17 +13,27 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 
 import "./App.scss";
+import SearchResults from "./components/layout/SearchResults";
 
 class App extends React.Component {
+  state = {
+    searchData: ""
+  };
+  getSearchData = data => {
+    this.setState({
+      searchData: data
+    });
+  };
   render() {
     return (
       <AuthProvider>
         <Router>
           <div className="App">
-            <Header />
+            <Header searchData={this.getSearchData} />
             <Switch>
               <Route path="/register" component={Register} />
               <Route path="/login" component={Login} />
+              <Route path="/search/:id" component={() => <SearchResults searchQuery={this.state.searchData} />} />
               <Route path="/" exact component={Home} />
               <PrivateRoute path="/dashboard" exact component={Dashboard} />
               <Route component={Page404} />

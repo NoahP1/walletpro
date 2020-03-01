@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { withRouter } from "react-router";
 import Firebase from "../config/Firebase";
-import "../scss/Register.scss";
+import "./Register.scss";
 
 const Register = ({ history }) => {
   const handleSubmit = useCallback(

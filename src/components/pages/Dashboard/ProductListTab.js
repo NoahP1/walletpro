@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { AuthContext } from "../../config/Auth";
 import Firebase from "../../config/Firebase";
+import Alert from "react-bootstrap/Alert";
 
 export class ProductListTab extends Component {
   constructor(props) {
@@ -16,37 +17,43 @@ export class ProductListTab extends Component {
     Firebase.firestore()
       .collection("users")
       .doc(uid)
-      .get()
-      .then(doc => {
+      .onSnapshot(doc => {
         const { products } = doc.data();
         this.setState({ products });
-        for (let i = 0; i < products.length; i++) {
-          productListRows.push(
-            <tr>
-              <td>{products[i].url}</td>
-            </tr>
-          );
+        if (products) {
+          for (let i = 0; i < products.length; i++) {
+            productListRows.push(
+              <tr>
+                <td>{products[i].url}</td>
+              </tr>
+            );
+          }
         }
-        console.log(productListRows);
       });
   }
+
   render() {
     return (
       <div className="tab-container">
-        <table>
-          <tbody>
-            <tr>
-              <th>URL</th>
-            </tr>
-            {this.state.products.map((product, index) => (
-              <tr key={index}>
-                <td>
-                  <a href={product.url}>Product link {index + 1}</a>
-                </td>
+        {this.props.showAlert ? <Alert variant="success">Product added!</Alert> : null}
+        {!this.state.products ? (
+          <span>You have no products yet..</span>
+        ) : (
+          <table>
+            <tbody>
+              <tr>
+                <td>URL</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
+              {this.state.products.map((product, index) => (
+                <tr key={index}>
+                  <td>
+                    <a href={product.url}>Product link {index + 1}</a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     );
   }
@@ -55,42 +62,3 @@ export class ProductListTab extends Component {
 ProductListTab.contextType = AuthContext;
 
 export default ProductListTab;
-
-// export class ProductListTab extends Component {
-//   const { currentUser } = useContext(AuthContext);
-// Firebase.firestore()
-//   .collection("users")
-//   .doc(currentUser.uid)
-//   .get()
-//   .then(doc => {
-//     const { products } = doc.data();
-//     let productListRows = [];
-//     for (let i = 0; i < products.length; i++) {
-//       productListRows.push(
-//         <tr>
-//           <td>{products[i].createdAt}</td>
-//           <td>{products[i].url}</td>
-//         </tr>
-//       );
-//       console.log(products[i].url);
-//     }
-//     console.log(products);
-//   });
-
-//   return (
-//     <div className="tab-container">
-//       <h1>List products</h1>
-//       <table>
-//         <tbody>
-//           <tr>
-//             <td>Date</td>
-//             <td>URL</td>
-//           </tr>
-//           {productListRows}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// }
-
-// export default ProductListTab;

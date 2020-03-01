@@ -26,8 +26,9 @@ export class AddProductTab extends Component {
       .collection("users")
       .doc(uid)
       .update({ products: arrayUnion(data) })
-      .then(doc => {
-        console.log(doc);
+      .then(() => {
+        this.props.data({ activeTab: "products", showAlert: true });
+        document.querySelector(".add-amazon-url").value = "";
       })
       .catch(error => {
         console.log(error);
@@ -56,6 +57,8 @@ export class AddProductTab extends Component {
                 name="amazon-url"
                 onChange={this.handleChange}
                 pattern="https?:\/\/(?=(?:....)?amazon|smile)(www|smile)\S+com(((?:\/(?:dp|gp)\/([A-Z0-9]+))?\S*[?&]?(?:tag=))?\S*?)(?:#)?(\w*?-\w{2})?(\S*)(#?\S*)+"
+                required
+                className="add-amazon-url"
               />
               <Form.Control.Feedback type="invalid">test</Form.Control.Feedback>
             </InputGroup>

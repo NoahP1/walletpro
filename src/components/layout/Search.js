@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
-import "../scss/Search.scss";
+import "./Search.scss";
 
 export class Search extends Component {
   constructor(props) {
@@ -16,24 +17,26 @@ export class Search extends Component {
     });
   };
 
+  // scrape amazon search results, use user input as the search keywords
   handleSearch = e => {
-    // connect to amazon api, search for user search keywords
-    if (e.keyCode === 13 || e.target.type === "submit") {
-      console.log(this.state.searchQuery);
-      this.setState({
-        searchQuery: ""
-      });
-    }
+    e.preventDefault();
+    this.props.searchData(this.state.searchQuery);
+    this.props.history.push("/search/" + this.state.searchQuery);
   };
 
   render() {
     return (
-      <div className="header-search">
+      <form className="header-search">
         <div className="row">
           <div className="column">
             <div className="field">
               <p className="control has-icons-left has-icons-right">
-                <input type="search" placeholder="Search for anything on Amazon.." className="input search-input" />
+                <input
+                  type="search"
+                  placeholder="Search for anything on Amazon.."
+                  className="input search-input"
+                  onChange={this.handleChange}
+                />
                 <span className="icon is-left">
                   <i className="fa fa-search"></i>
                 </span>
@@ -48,9 +51,9 @@ export class Search extends Component {
             <input type="submit" value="Search" className="search-button" onClick={this.handleSearch} />
           </div>
         </div>
-      </div>
+      </form>
     );
   }
 }
 
-export default Search;
+export default withRouter(Search);
